@@ -1,11 +1,23 @@
 // Any global variables can be defined up here
+let bricks = [];
+let paddle;
 
+const VALUEBRICK = 1;
+const VALUEEMPTY = 0;
 
 /*
     Code in the setup function will only be run once at the start of the animation
 */
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
+    for (let i = 0; i < 7; i++) {
+        let row = [];
+        for (let j = 0; j < 5; j++) {
+            row.push({value : VALUEBRICK, color : randomColor()});
+        }
+        bricks.push(row);
+    }
+    paddle = {x : width / 2, y : height - 30};
 }
 
 /*
@@ -13,5 +25,31 @@ function setup() {
 */
 function draw() {
     // Update
+    if (keys[LEFT_ARROW]) {
+        paddle.x -= 15;
+    }
+    if (keys[RIGHT_ARROW]) {
+        paddle.x += 15;
+    }
+    paddle.x = constrain(paddle.x, 0, width - 60);
     // Render
+    background(255, 255, 255);
+    // draw bricks
+    for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 5; j++) {
+            // if the brick isn't broken, draw it
+            if (bricks[i][j].value == VALUEBRICK) {
+                fill(bricks[i][j].color);
+                rect(i * 40 + (width / 2 - (3.5 * 40)), j * 20, 40, 20);
+            }
+        }
+    }
+    // draw paddle
+    fill(0, 0, 0);
+    rect(paddle.x, paddle.y, 60, 20);
+}
+
+
+function randomColor() {
+	return color(random(0, 255), random(0, 255), random(0, 255));
 }
