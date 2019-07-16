@@ -19,7 +19,7 @@ function setup() {
         bricks.push(row);
     }
     paddle = {x : width / 2, y : height - 30};
-    ball = {x : paddle.x + 30, y : paddle.y - 15, dir : createVector(random(-5, 5), -5)};
+    ball = {x : paddle.x + 30, y : paddle.y - 15, dir : createVector(random(0, 100) > 50 ? 5 : -5, -5)};
 }
 
 /*
@@ -38,6 +38,13 @@ function draw() {
     // update the ball
     ball.x += ball.dir.x;
     ball.y += ball.dir.y;
+    // if the ball reaches the border, invert based on which border
+    if (ball.x <= 15 || ball.x >= width - 15) {
+        ball.dir.x = -ball.dir.x;
+    }
+    if (ball.y <= 15) {
+        ball.dir.y = -ball.dir.y;
+    }
     // Render
     background(255, 255, 255);
     // draw bricks
