@@ -1,6 +1,7 @@
 // Any global variables can be defined up here
 let bricks = [];
 let paddle;
+let ball;
 
 const VALUEBRICK = 1;
 const VALUEEMPTY = 0;
@@ -18,6 +19,7 @@ function setup() {
         bricks.push(row);
     }
     paddle = {x : width / 2, y : height - 30};
+    ball = {x : paddle.x + 30, y : paddle.y - 15, dir : createVector(random(-5, 5), -5)};
 }
 
 /*
@@ -32,6 +34,10 @@ function draw() {
         paddle.x += 15;
     }
     paddle.x = constrain(paddle.x, 0, width - 60);
+
+    // update the ball
+    ball.x += ball.dir.x;
+    ball.y += ball.dir.y;
     // Render
     background(255, 255, 255);
     // draw bricks
@@ -47,6 +53,9 @@ function draw() {
     // draw paddle
     fill(0, 0, 0);
     rect(paddle.x, paddle.y, 60, 20);
+    // draw ball
+    fill(50, 200, 100);
+    ellipse(ball.x, ball.y, 30, 30);
 }
 
 
